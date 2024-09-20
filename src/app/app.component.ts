@@ -1,13 +1,27 @@
+// src/app/app.component.ts
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'css_angular';
+  user: string = '';
+  pass: string = '';
+  response: any;
+
+  constructor(private userService: UserService) {}
+
+  login() {
+    this.userService.loginUser(this.user, this.pass).subscribe(
+      (data) => {
+        this.response = data; // Handle successful response
+      },
+      (error) => {
+        console.error('Login error:', error); // Handle error
+      }
+    );
+  }
 }
