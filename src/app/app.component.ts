@@ -1,27 +1,20 @@
 // src/app/app.component.ts
-import { Component } from '@angular/core';
-import { UserService } from './user.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  user: string = '';
-  pass: string = '';
-  response: any;
+export class AppComponent implements OnInit {
+  messages: any[] = [];
 
-  constructor(private userService: UserService) {}
+  ngOnInit() {
+    const eventSource = new EventSource('http://localhost:3000/events'); // Simulated event source URL
 
-  login() {
-    this.userService.loginUser(this.user, this.pass).subscribe(
-      (data) => {
-        this.response = data; // Handle successful response
-      },
-      (error) => {
-        console.error('Login error:', error); // Handle error
-      }
-    );
+    eventSource.addEventListener('message', (event: MessageEvent) => { // Source: Incoming message event
+      // Sink: Processing incoming message without origin verification
+      this.messages.push(JSON.parse(event.data)); // Vulnerable to cross-origin attacks
+    });
   }
 }

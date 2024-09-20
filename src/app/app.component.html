@@ -1,8 +1,7 @@
 <!-- src/app/app.component.html -->
 <div>
-  <h1>Login</h1>
-  <input [(ngModel)]="user" placeholder="Username" />
-  <input [(ngModel)]="pass" type="password" placeholder="Password" />
-  <button (click)="login()">Login</button>
-  <pre>{{ response | json }}</pre> <!-- Display the response -->
+  <h1>Event Messages</h1>
+  <ul>
+    <li *ngFor="let message of messages">{{ message.hello }}</li>
+  </ul>
 </div>
